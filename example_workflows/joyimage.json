@@ -1,0 +1,838 @@
+{
+  "id": "2a1ae491-ed35-4bc8-b4dd-a5cee997013f",
+  "revision": 0,
+  "last_node_id": 32,
+  "last_link_id": 61,
+  "nodes": [
+    {
+      "id": 4,
+      "type": "JoyAI_Image_LATENTS",
+      "pos": [
+        20842.725512877667,
+        -492.32260878653443
+      ],
+      "size": [
+        270,
+        150
+      ],
+      "flags": {},
+      "order": 8,
+      "mode": 2,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 12
+        },
+        {
+          "name": "vae",
+          "shape": 7,
+          "type": "VAE",
+          "link": 25
+        }
+      ],
+      "outputs": [
+        {
+          "name": "latent",
+          "type": "LATENT",
+          "links": [
+            1
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "JoyAI_Image_LATENTS"
+      },
+      "widgets_values": [
+        1216048398,
+        "fixed",
+        1024,
+        1024
+      ]
+    },
+    {
+      "id": 14,
+      "type": "JoyAI_Image_ENCODER",
+      "pos": [
+        20370.296397399088,
+        -457.29533838974066
+      ],
+      "size": [
+        400,
+        200
+      ],
+      "flags": {},
+      "order": 9,
+      "mode": 2,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 16
+        },
+        {
+          "name": "image",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": 17
+        }
+      ],
+      "outputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "links": [
+            18,
+            23
+          ]
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "links": [
+            24
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "JoyAI_Image_ENCODER"
+      },
+      "widgets_values": [
+        "Turn the plate blue",
+        "cuda",
+        true
+      ]
+    },
+    {
+      "id": 1,
+      "type": "JoyAI_Image_SM_Model",
+      "pos": [
+        20804.444408542826,
+        -642.9905545506151
+      ],
+      "size": [
+        343.41596747239964,
+        85.14639060425452
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 2,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "links": [
+            3
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "JoyAI_Image_SM_Model"
+      },
+      "widgets_values": [
+        "joy_image_transformer.safetensors",
+        "none"
+      ]
+    },
+    {
+      "id": 10,
+      "type": "SaveImage",
+      "pos": [
+        21142.32249594224,
+        -302.6532458634289
+      ],
+      "size": [
+        316.52843317599763,
+        352.14052057116317
+      ],
+      "flags": {},
+      "order": 16,
+      "mode": 2,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 53
+        }
+      ],
+      "outputs": [],
+      "properties": {},
+      "widgets_values": [
+        "ComfyUI"
+      ]
+    },
+    {
+      "id": 16,
+      "type": "JoyAI_Vae_Decoder",
+      "pos": [
+        21178.79638603116,
+        -454.53169313079843
+      ],
+      "size": [
+        257.58332745706355,
+        46
+      ],
+      "flags": {},
+      "order": 14,
+      "mode": 2,
+      "inputs": [
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 54
+        },
+        {
+          "name": "latents",
+          "type": "LATENT",
+          "link": 27
+        }
+      ],
+      "outputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "links": [
+            53
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "JoyAI_Vae_Decoder"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 15,
+      "type": "JoyAI_Image_SM_VAE",
+      "pos": [
+        21175.02808913353,
+        -620.3113417158576
+      ],
+      "size": [
+        270,
+        58
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 2,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "vae",
+          "type": "VAE",
+          "links": [
+            25,
+            54
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "JoyAI_Image_SM_VAE"
+      },
+      "widgets_values": [
+        "Wan2.1_VAE.pth"
+      ]
+    },
+    {
+      "id": 5,
+      "type": "JoyAI_Image_SM_KSampler",
+      "pos": [
+        20827.07829554382,
+        -279.9061113465927
+      ],
+      "size": [
+        282.4810546875,
+        190
+      ],
+      "flags": {},
+      "order": 12,
+      "mode": 2,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 3
+        },
+        {
+          "name": "latents",
+          "type": "LATENT",
+          "link": 1
+        },
+        {
+          "name": "positive",
+          "shape": 7,
+          "type": "CONDITIONING",
+          "link": 23
+        },
+        {
+          "name": "negative",
+          "shape": 7,
+          "type": "CONDITIONING",
+          "link": 24
+        }
+      ],
+      "outputs": [
+        {
+          "name": "latent",
+          "type": "LATENT",
+          "links": [
+            27
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "JoyAI_Image_SM_KSampler"
+      },
+      "widgets_values": [
+        20,
+        7.5,
+        true,
+        2
+      ]
+    },
+    {
+      "id": 13,
+      "type": "PreviewAny",
+      "pos": [
+        20372.948979592402,
+        -213.27126551002547
+      ],
+      "size": [
+        400.40483637695434,
+        272.46636091078096
+      ],
+      "flags": {},
+      "order": 11,
+      "mode": 2,
+      "inputs": [
+        {
+          "name": "source",
+          "type": "*",
+          "link": 18
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "PreviewAny"
+      },
+      "widgets_values": [
+        null,
+        null,
+        null
+      ]
+    },
+    {
+      "id": 3,
+      "type": "JoyAI_Image_SM_Clip",
+      "pos": [
+        20469.48060913142,
+        -619.9307633964665
+      ],
+      "size": [
+        270,
+        82
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 2,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "links": [
+            16
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "JoyAI_Image_SM_Clip"
+      },
+      "widgets_values": [
+        "JoyAI-Image-Und-merger_bf16.safetensors",
+        "none"
+      ]
+    },
+    {
+      "id": 11,
+      "type": "LoadImage",
+      "pos": [
+        20002.973180667486,
+        -547.0052369078016
+      ],
+      "size": [
+        292.92662709497745,
+        479.8369035816668
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            12,
+            17
+          ]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "test_1.jpg",
+        "image"
+      ]
+    },
+    {
+      "id": 17,
+      "type": "Note",
+      "pos": [
+        19504.319241910616,
+        -638.5414753541683
+      ],
+      "size": [
+        454.2734004190024,
+        574.5500440018349
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "properties": {},
+      "widgets_values": [
+        "\n1、 移动物体示例，\nMove the <object> into the red box and finally remove the red box.\n\n实际提示词\nMove the apple into the red box and finally remove the red box.\n\n\n\n2、视角切换prompt示例：\nRotate the <object> to show the <view> side view.\n\n支持的视角切换 <view> 替换掉view\nfront\nright\nleft\nrear\nfront right\nfront left\nrear right\nrear left\n\n实际提示词\nRotate the chair to show the front side view.\nRotate the car to show the rear left side view.\n\n\n3、 镜头控制\nMove the camera.\n- Camera rotation: Yaw {y_rotation}°, Pitch {p_rotation}°.\n- Camera zoom: in/out/unchanged.\n- Keep the 3D scene static; only change the viewpoint.\n\n实际提示词：\nMove the camera.\n- Camera rotation: Yaw 45°, Pitch 0°.\n- Camera zoom: in.\n- Keep the 3D scene static; only change the viewpoint.\n\n或者\nMove the camera.\n- Camera rotation: Yaw -90°, Pitch 20°.\n- Camera zoom: unchanged.\n- Keep the 3D scene static; only change the viewpoint."
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 31,
+      "type": "ImageBatch",
+      "pos": [
+        20425.85806087734,
+        451.9845542917651
+      ],
+      "size": [
+        140,
+        46
+      ],
+      "flags": {},
+      "order": 10,
+      "mode": 2,
+      "inputs": [
+        {
+          "name": "image1",
+          "type": "IMAGE",
+          "link": 59
+        },
+        {
+          "name": "image2",
+          "type": "IMAGE",
+          "link": 60
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            61
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ImageBatch"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 28,
+      "type": "JoyAI_Image_SM_Clip",
+      "pos": [
+        20369.011635584688,
+        222.28848630003668
+      ],
+      "size": [
+        270,
+        82
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 2,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "links": [
+            57
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "JoyAI_Image_SM_Clip"
+      },
+      "widgets_values": [
+        "JoyAI-Image-Und-merger_bf16.safetensors",
+        "none"
+      ]
+    },
+    {
+      "id": 26,
+      "type": "JoyAI_Image_Understand",
+      "pos": [
+        20670.151078083465,
+        282.192262702941
+      ],
+      "size": [
+        400,
+        228
+      ],
+      "flags": {},
+      "order": 13,
+      "mode": 2,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 57
+        },
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 61
+        }
+      ],
+      "outputs": [
+        {
+          "name": "response",
+          "type": "STRING",
+          "links": [
+            55
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "JoyAI_Image_Understand"
+      },
+      "widgets_values": [
+        "Compare these two images.",
+        2048,
+        0.7,
+        0.8,
+        50,
+        "cuda"
+      ]
+    },
+    {
+      "id": 27,
+      "type": "PreviewAny",
+      "pos": [
+        21099.17781626596,
+        227.7317034140748
+      ],
+      "size": [
+        411.49710473692176,
+        320.16314870956194
+      ],
+      "flags": {},
+      "order": 15,
+      "mode": 2,
+      "inputs": [
+        {
+          "name": "source",
+          "type": "*",
+          "link": 55
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "PreviewAny"
+      },
+      "widgets_values": [
+        null,
+        null,
+        null
+      ]
+    },
+    {
+      "id": 32,
+      "type": "LoadImage",
+      "pos": [
+        20006.860719625834,
+        578.353819758959
+      ],
+      "size": [
+        270,
+        314.00000000000006
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            60
+          ]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "test_3.png",
+        "image"
+      ]
+    },
+    {
+      "id": 29,
+      "type": "LoadImage",
+      "pos": [
+        20006.25013320333,
+        159.22249838007153
+      ],
+      "size": [
+        275.2101011260056,
+        358.77371330286906
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            59
+          ]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "test_1.jpg",
+        "image"
+      ]
+    }
+  ],
+  "links": [
+    [
+      1,
+      4,
+      0,
+      5,
+      1,
+      "LATENT"
+    ],
+    [
+      3,
+      1,
+      0,
+      5,
+      0,
+      "MODEL"
+    ],
+    [
+      12,
+      11,
+      0,
+      4,
+      0,
+      "IMAGE"
+    ],
+    [
+      16,
+      3,
+      0,
+      14,
+      0,
+      "CLIP"
+    ],
+    [
+      17,
+      11,
+      0,
+      14,
+      1,
+      "IMAGE"
+    ],
+    [
+      18,
+      14,
+      0,
+      13,
+      0,
+      "CONDITIONING"
+    ],
+    [
+      23,
+      14,
+      0,
+      5,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      24,
+      14,
+      1,
+      5,
+      3,
+      "CONDITIONING"
+    ],
+    [
+      25,
+      15,
+      0,
+      4,
+      1,
+      "VAE"
+    ],
+    [
+      27,
+      5,
+      0,
+      16,
+      1,
+      "LATENT"
+    ],
+    [
+      53,
+      16,
+      0,
+      10,
+      0,
+      "IMAGE"
+    ],
+    [
+      54,
+      15,
+      0,
+      16,
+      0,
+      "VAE"
+    ],
+    [
+      55,
+      26,
+      0,
+      27,
+      0,
+      "STRING"
+    ],
+    [
+      57,
+      28,
+      0,
+      26,
+      0,
+      "CLIP"
+    ],
+    [
+      59,
+      29,
+      0,
+      31,
+      0,
+      "IMAGE"
+    ],
+    [
+      60,
+      32,
+      0,
+      31,
+      1,
+      "IMAGE"
+    ],
+    [
+      61,
+      31,
+      0,
+      26,
+      1,
+      "IMAGE"
+    ]
+  ],
+  "groups": [
+    {
+      "id": 1,
+      "title": "Group",
+      "bounding": [
+        20360.296397399088,
+        -693.5307633964666,
+        423.05741857026806,
+        762.725858797222
+      ],
+      "color": "#3f789e",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "id": 2,
+      "title": "Group",
+      "bounding": [
+        20800.419992988376,
+        -696.2643982036351,
+        707.3995033604333,
+        775.6013422163574
+      ],
+      "color": "#3f789e",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "id": 3,
+      "title": "Group",
+      "bounding": [
+        20343.9040135276,
+        150.3523702537851,
+        1179.091696966756,
+        432.6842093303753
+      ],
+      "color": "#3f789e",
+      "font_size": 24,
+      "flags": {}
+    }
+  ],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.5960521358998819,
+      "offset": [
+        -19117.54563399457,
+        694.7222119219581
+      ]
+    },
+    "frontendVersion": "1.41.21",
+    "VHS_latentpreview": false,
+    "VHS_latentpreviewrate": 0,
+    "VHS_MetadataImage": true,
+    "VHS_KeepIntermediate": true
+  },
+  "version": 0.4
+}

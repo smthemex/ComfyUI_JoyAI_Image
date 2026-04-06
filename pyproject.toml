@@ -1,0 +1,16 @@
+[project]
+name = "joyai_image"
+description = ""
+version = "1.0.0"
+license = {file = "LICENSE"}
+dependencies = ["accelerate", "diffusers>=0.34.0", "einops", "fastapi", "flash-attn>=2.8.0", "loguru", "openai", "packaging", "pillow", "pydantic>=2", "requests", "safetensors", "sentencepiece", "torch", "torchvision", "transformers>=4.57.0,<4.58.0", "uvicorn"]
+
+[project.urls]
+Repository = "https://github.com/smthemex/ComfyUI_JoyAI_Image"
+#  Used by Comfy Registry https://registry.comfy.org
+
+[tool.comfy]
+PublisherId = "smthemex"
+DisplayName = "ComfyUI_JoyAI_Image"
+Icon = ""
+includes = []
