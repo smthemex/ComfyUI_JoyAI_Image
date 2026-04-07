@@ -216,7 +216,7 @@ class JoyAI_Image_SM_KSampler(io.ComfyNode):
                 io.Int.Input("steps", default=20, min=1, max=nodes.MAX_RESOLUTION,step=1,display_mode=io.NumberDisplay.number),
                 io.Float.Input("guidance_scale", default=5.0, min=1, max=20,step=0.1,display_mode=io.NumberDisplay.number),
                 io.Boolean.Input("offload", default=True),
-                io.Int.Input("offload_block_num", default=1, min=1, max=40,step=1,display_mode=io.NumberDisplay.number),
+                io.Int.Input("offload_block_num", default=0, min=0, max=20,step=2,display_mode=io.NumberDisplay.number),
                 io.Conditioning.Input("positive",optional=True),
                 io.Conditioning.Input("negative",optional=True),  
             ], 
@@ -231,6 +231,7 @@ class JoyAI_Image_SM_KSampler(io.ComfyNode):
         clear_comfyui_cache()
         if not offload:
             model.dit.to(device)
+        offload_block_num=1 if offload_block_num==0 else offload_block_num
         lat=infer_joyai(model,latents,positive,negative, steps, guidance_scale,offload,offload_block_num)
         if not offload:
             model.dit.to("cpu")
