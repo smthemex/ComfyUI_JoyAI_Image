@@ -862,7 +862,7 @@ class Pipeline(DiffusionPipeline):
             ref_latents = latents[:, :(num_items - 1)].clone()
 
         if offload:
-            gpu_manager=BlockGPUManager()
+            gpu_manager=BlockGPUManager("cuda",offload_block_num)
             gpu_manager.setup_for_inference(self.transformer)
         else:
             gpu_manager=None
