@@ -30,6 +30,7 @@ class BlockGPUManager:
         self._original_block_ref = None
         self._num_groups = 0  # 总批次数
         self._group_loaded: list[bool] = [] 
+        self.use_gguf = False
         
 
     def setup_for_inference(self, transformer_model):
@@ -41,6 +42,7 @@ class BlockGPUManager:
     def _collect_managed_modules(self, transformer_model):
         self.submodule = []
         self._original_model_ref = transformer_model
+        self.use_gguf = getattr(transformer_model, "use_gguf", False)
         self._original_block_ref = transformer_model.double_blocks
 
         self._num_groups = (len(self._original_block_ref) + self.block_group_size - 1) // self.block_group_size
@@ -64,10 +66,14 @@ class BlockGPUManager:
         group = nn.ModuleList()
         for layer in self._original_block_ref[start_idx:end_idx]:
             # 深拷贝当前层
-            cpu_layer = copy.deepcopy(layer)
+            if not self.use_gguf:
+                layer = copy.deepcopy(layer)
+            else:
+                # 记录原始设备以便后续恢复
+                layer._original_device = next(layer.parameters()).device
             # 移动到目标设备
-            cpu_layer.to(self.device)
-            group.append(cpu_layer)
+            layer.to(self.device)
+            group.append(layer)
         
         self.managed_modules[group_index] = group
         self._group_loaded[group_index] = True
@@ -78,6 +84,12 @@ class BlockGPUManager:
             return
         
         group = self.managed_modules[group_index]
+        if self.use_gguf:
+            # 将层移回原始设备
+            for layer in group:
+                if hasattr(layer, '_original_device'):
+                    layer.to(layer._original_device)
+                    delattr(layer, '_original_device')
         self.managed_modules[group_index] = None
         self._group_loaded[group_index] = False
         

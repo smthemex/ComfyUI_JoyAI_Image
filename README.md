@@ -6,7 +6,7 @@
 
 Update
 -----
-* Need 64RAM+8VRAM 
+* Support gguf now, use less memory / 支持gguf，内存占用更少，模型在hg或者夸克云
 
 
 1.Installation  
@@ -29,14 +29,16 @@ pip install -r requirements.txt
 3.checkpoints 
 ----
 
-* transformers/vae/clip  [links](https://huggingface.co/jdopensource/JoyAI-Image-Edit) 
-* or [aliyun](https://pan.quark.cn/s/e20f511c921c)
+* transformers/gguf/vae/clip  [links](https://huggingface.co/jdopensource/JoyAI-Image-Edit) 
+* or [夸克云](https://pan.quark.cn/s/e20f511c921c)
 * or [hg](https://huggingface.co/smthem/JoyAI-Image-Edit-merge-dit-gguf)
 
 ```
 ├── ComfyUI/models/
 |     ├── diffusion_models/
-|        ├──joy_image_transformer.safetensors
+|        ├──joy_image_transformer.safetensors # optional
+|     ├── gguf/
+|        ├──joy_image_transformer-Q8_0.gguf # optional
 |     ├── vae/
 |        ├──Wan2.1_VAE.pth
 |     ├── clips
@@ -49,12 +51,14 @@ pip install -r requirements.txt
 ![](https://github.com/smthemex/ComfyUI_JoyAI_Image/blob/main/example_workflows/example.png)
 ![](https://github.com/smthemex/ComfyUI_JoyAI_Image/blob/main/example_workflows/example2.png)
 ![](https://github.com/smthemex/ComfyUI_JoyAI_Image/blob/main/example_workflows/example3.png)
+* GGUF
+![](https://github.com/smthemex/ComfyUI_JoyAI_Image/blob/main/example_workflows/example_q.png)
 
 5.Citation
 ----
 
 ```
-@article{JoyAI2023,}
+@jd-opensource
 
 ```
 

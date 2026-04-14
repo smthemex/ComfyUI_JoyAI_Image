@@ -129,11 +129,11 @@ def load_dit(cfg, device: torch.device) -> torch.nn.Module:
 
     # Ensure consistent dtype
     param_dtypes = {param.dtype for param in model.parameters()}
-    if len(param_dtypes) > 1:
+    if len(param_dtypes) > 1 and not use_gguf:
         logger.warning(
             f"Model has mixed dtypes: {param_dtypes}. Converting to {dtype}")
         model = model.to(dtype)
-
+    model.use_gguf=use_gguf
     return model.eval()
 
 def load_gguf_checkpoint(gguf_checkpoint_path):
