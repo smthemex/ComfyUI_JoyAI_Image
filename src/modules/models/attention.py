@@ -6,7 +6,11 @@ import torch
 from einops import rearrange
 
 _FLASH_ATTN_IMPORT_ERROR = None
-
+try:
+    from sageattention import sageattn
+    _SAGE_ATTN_AVAILABLE = True
+except ImportError:
+    _SAGE_ATTN_AVAILABLE = False
 try:
     # Check for Flash Attention 3 installation path
     flash_attn3_path = os.getenv("FLASH_ATTN3_PATH")
@@ -87,10 +91,12 @@ def attention(
     # Fall back to torch_spda when flash_attn was requested but unavailable
     if backend == "flash_attn" and flash_attn_varlen_func is None:
         backend = "torch_spda"
-    assert backend in [
-        "torch_spda", "flash_attn"], f"Unsupported attention backend: {backend}"
+        
+    assert backend in[
+        "torch_spda", "flash_attn", "sage_attn"], f"Unsupported attention backend: {backend}"
     assert q.dim() == 4 and k.dim() == 4 and v.dim() == 4, "Input tensors must be 4D"
     batch_size = q.shape[0]
+    
     if backend == "torch_spda":
         q = rearrange(q, "b l h c -> b h l c")
         k = rearrange(k, "b l h c -> b h l c")
@@ -98,6 +104,16 @@ def attention(
         output = torch.nn.functional.scaled_dot_product_attention(
             q, k, v, is_causal=causal, scale=softmax_scale)
         output = rearrange(output, "b h l c -> b l h c")
+
+    elif backend == "sage_attn":
+        assert _SAGE_ATTN_AVAILABLE, "SageAttention is not installed."
+        q = rearrange(q, "b l h c -> b h l c").contiguous()
+        k = rearrange(k, "b l h c -> b h l c").contiguous()
+        v = rearrange(v, "b l h c -> b h l c").contiguous()
+        
+        output = sageattn(q, k, v, is_causal=causal, tensor_layout="b h n d")
+        output = rearrange(output, "b h l c -> b l h c")
+        
     elif backend == "flash_attn":
         cu_seqlens_q = attn_kwargs['cu_seqlens_q']
         cu_seqlens_kv = attn_kwargs['cu_seqlens_kv']
