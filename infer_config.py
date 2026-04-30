@@ -33,7 +33,7 @@ class JoyAIImageInferConfig(InferConfig):
                 "rope_type": "rope",
                 "dit_modulation_type": "wanx",
                 "theta": 10000,
-                "attn_backend": "flash_attn",
+                "attn_backend": "sage_attn",
             },
         }
     )
